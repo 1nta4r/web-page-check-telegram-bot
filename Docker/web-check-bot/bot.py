@@ -31,15 +31,14 @@ class WebCheckBot():
                 cache_file.write(html_response_hash)
                 self.send_to_bot("Changes detected at url: " + url)
         else:
-            print("No cache file for " + url + " found, creating one...")
             cache_file = open(dirpath, "w")
             cache_file.write(html_response_hash)
+
 
     # Check changes in gilab commits count
     def gitlab_report_changes(self, url: str):
         html_response = requests.get(url).text
         commits_count = html_response.split('</strong> Commits</a>')[0].split('>')[-1].strip()
-        print(commits_count)
         file_name = ''.join(x for x in url if x.isalpha()) + ".txt"
         dirpath = os.path.join('bd_dir',  file_name)
         if os.path.exists(dirpath):
