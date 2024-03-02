@@ -1,0 +1,12 @@
+version: '3.10'
+services:
+  web-check-bot:
+    build:
+      context: ./web-check-bot
+      dockerfile: Dockerfile
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+    restart: always
