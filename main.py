@@ -1,6 +1,7 @@
 import requests
 import os
 import time
+import hashlib 
 
 
 BOT_TOKEN = ''
@@ -9,19 +10,20 @@ CHAT_ID = ''
 
 def report_changes(url):
     html_response = requests.get(url).text
-    print(html_response)
+    html_response_hash = str(hashlib.sha3_256(html_response.encode()).hexdigest())
+    print(html_response_hash)
     file_name = ''.join(x for x in url if x.isalpha()) + ".txt"
     if os.path.exists(file_name):
         cache_file = open(file_name, "r")
         html_cache = cache_file.read()
-        if html_response != html_cache:
+        if html_response_hash != html_cache:
             cache_file = open(file_name, "w")
-            cache_file.write(html_response)
+            cache_file.write(html_response_hash)
             send_to_bot("Changes detected at url: " + url)
     else:
-        print("no cache file for " + url + " found, creating one...")
+        print("No cache file for " + url + " found, creating one...")
         cache_file = open(file_name, "w")
-        cache_file.write(html_response)
+        cache_file.write(html_response_hash)
 
 def scan_urls():
     with open("urls.txt") as urls_file:
