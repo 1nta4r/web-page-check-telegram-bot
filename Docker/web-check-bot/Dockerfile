@@ -2,7 +2,6 @@ FROM ubuntu:latest
 
 
 RUN apt-get update
-RUN apt-get install socat -y
 RUN apt-get install python3 -y
 RUN apt-get -y install python3-pip
 
